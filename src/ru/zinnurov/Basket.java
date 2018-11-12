@@ -1,6 +1,6 @@
 package ru.zinnurov;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Nail Zinnurov
@@ -9,15 +9,15 @@ import java.util.Map;
  */
 
 public interface Basket {
-    void addProduct(String product, int quantity);
 
-    void removeProduct(String product);
+    void addProduct(Product product);
 
-    void updateProductQuantity(String product, int quantity);
+    void removeProduct(String nameProduct);
 
     void clear();
 
-    Map<String, Integer> getProducts();
+    List<String> getProducts();
 
     int getProductQuantity(String product);
+
 }

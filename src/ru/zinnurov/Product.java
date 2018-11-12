@@ -11,13 +11,14 @@ package ru.zinnurov;
  */
 
 public class Product {
-    private ProductType type;
-    private String name;
+    private final ProductType type;
+    private final String name;
+    private final int quantityInStock;
 
-    public Product(ProductType type, String name) {
+    public Product(ProductType type, String name, int quantityInStock) {
         this.type = type;
         this.name = name;
-
+        this.quantityInStock = quantityInStock;
     }
 
     public ProductType getType() {
@@ -26,5 +27,18 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    public int getQuantity() {
+        return quantityInStock;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantityInStock +
+                '}';
     }
 }

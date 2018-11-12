@@ -13,36 +13,39 @@ import java.util.*;
 
 public class UserBasket implements Basket {
 
-    Map<String, Integer> selectedProduct = new HashMap<>();
+    Map<String, Integer> productsInBasket = new HashMap<>();
 
     @Override
-    public void addProduct(String product, int quantity) {
-        selectedProduct.put(product, quantity);
-    }
-
-    @Override
-    public void removeProduct(String product) {
-        selectedProduct.remove(product);
+    public void addProduct(Product product) {
+        productsInBasket.put(product.getName(), product.getQuantity());
         System.out.println("Done!");
-        System.out.println();
     }
+
     @Override
-    public void updateProductQuantity(String product, int quantity) {
+    public void removeProduct(String nameProduct) {
+        productsInBasket.remove(nameProduct);
+        System.out.println("Done!");
     }
 
     @Override
     public void clear() {
-        selectedProduct.clear();
+        productsInBasket.clear();
         System.out.println("Done!");
     }
 
     @Override
-    public Map<String, Integer> getProducts() {
-        return selectedProduct;
+    public List<String> getProducts() {
+
+        List<String> nameProduct = new ArrayList<>();
+        for (String key : productsInBasket.keySet()) {
+            nameProduct.add(key);
+        }
+
+        return nameProduct;
     }
 
     @Override
     public int getProductQuantity(String product) {
-        return 0;
+        return  productsInBasket.get(product);
     }
 }

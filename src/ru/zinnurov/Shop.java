@@ -1,7 +1,7 @@
 package ru.zinnurov;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,25 +15,59 @@ import java.util.List;
 
 public class Shop {
 
+    private List<Product> allProducts = Arrays.asList(
+            new Product(ProductType.BREAD, "Brown tommy", 10),
+            new Product(ProductType.MILK, "Soy Milk", 10),
+            new Product(ProductType.VEGETABLES, "Potato", 10),
+            new Product(ProductType.BREAD, "Wheat bread", 10),
+            new Product(ProductType.MILK, "Oat Milk", 10),
+            new Product(ProductType.VEGETABLES, "Tomato", 10)
+    );
+
+    private UserBasket userBasket = new UserBasket();
+    private UserInteractor interactor = new UserInteractor();
+
     public static void main(String[] args) {
-        System.out.println("Welcome!");
-        System.out.println("Select the desired action.");
-
-        Menu startMenu = new Menu();
-        while(startMenu.chooseAction() <= 2) {}
-
+        new Shop().start();
     }
 
-    public static List<Product> getProducts() {
-        List<Product> productList = new ArrayList<>();
-        productList.add(new Product(ProductType.BREAD, "Brown tommy"));
-        productList.add(new Product(ProductType.MILK, "Soy Milk"));
-        productList.add(new Product(ProductType.VEGETABLES, "Potato"));
-        productList.add(new Product(ProductType.BREAD, "Wheat bread"));
-        productList.add(new Product(ProductType.MILK, "Oat Milk"));
-        productList.add(new Product(ProductType.VEGETABLES, "Tomato"));
-
-        return productList;
+    public void start() {
+        ActionType action = interactor.showWelcomeMenu();
+        switch (action) {
+            case SHOW_PRODUCTS:
+                showProducts();
+                break;
+            case SHOW_CART:
+                workWithCart();
+                break;
+            case EXIT:
+                return;
+        }
+        start();
     }
 
+    private void workWithCart() {
+        ActionType action = interactor.showCartActionsMenu();
+
+        switch (action) {
+            case REMOVE_PRODUCT:
+                if(userBasket.getProducts().size() == 0) {
+                    System.out.println("Basket is Empty");
+                }
+                else {
+                    String productToRemove = interactor.showProductWantedToRemove(userBasket);
+                    userBasket.removeProduct(productToRemove);
+                }
+                break;
+            case CLEAR_BASKET:
+                userBasket.clear();
+                break;
+        }
+    }
+
+    private void showProducts() {
+        interactor.showAllProductsMenu(allProducts);
+        Product product = interactor.chooseProduct(allProducts);
+        userBasket.addProduct(product);
+    }
 }
